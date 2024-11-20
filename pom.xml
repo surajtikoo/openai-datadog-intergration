@@ -4,22 +4,6 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-format_json() {
-  echo "$INPUT_STRING" | \
-  sed 's/{/{\n  /g' | \
-  sed 's/}/\n}/g' | \
-  sed 's/,/,\n  /g' | \
-  sed 's/  }/}/g' | \
-  sed 's/  {/  {/g' | \
-  sed 's/:/: /g'
-}
-
-# Save the formatted output to a file
-format_json > formatted_output.json
-
-# Notify the user
-echo "Formatted output saved to formatted_output.json"
-
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>

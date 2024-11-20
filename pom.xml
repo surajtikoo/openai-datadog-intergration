@@ -3,6 +3,35 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
+	#!/bin/bash
+
+# Input string
+INPUT_STRING='{\
+"multiLocator":{\
+"ab":"/*[local-name()=\"html\"][1]/*[local-name()=\"body\"][1]/*[local-name()=\"main\"][1]/*[local-name()=\"section\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"form\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"input\"][1]",\
+"at":"/descendant::*[@name=\"q\" and @value=\"\"]",\
+"cl":"/descendant::*[contains(concat(' ', normalize-space(@class), ' '), \" form__control \")]",\
+"clt":"/descendant::*[contains(concat(' ', normalize-space(@class), ' '), \" form__control \")]",\
+"co":"[{\"text\":\" search \",\"textType\":\"innerText\"}]",\
+"ro":"//*[@id=\"q\"]"\
+},\
+"targetOuterHTML":"<input type=\"search\" id=\"q\" name=\"q\" placeholder=\"Search\" value=\"\" class=\"form__control form__control-search\">",\
+"url":"https://learn.datadoghq.com/"\
+}'
+
+# Format the string
+FORMATTED_STRING=$(echo "$INPUT_STRING" | \
+  sed 's/,/,\n/g' | \
+  sed 's/{/{\n/g' | \
+  sed 's/}/\n}/g' | \
+  awk '{gsub(/\\\"/,"\\\\\""); print}' | \
+  sed 's/^[[:space:]]*//' \
+)
+
+# Output formatted string
+echo "$FORMATTED_STRING"
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>

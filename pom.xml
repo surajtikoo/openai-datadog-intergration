@@ -3,37 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
-# Replace the input JSON keys with the desired format
-output=$(echo "$input" | jq -r '{
-  element: "jsonencode({
-    multiLocator = {
-      ab = \"\(.multiLocator.ab)\",
-      at = \"\(.multiLocator.at)\",
-      cl = \"\(.multiLocator.cl)\",
-      co = \"\(.multiLocator.co)\",
-      ro = \"\(.multiLocator.ro)\",
-      clt = \"\(.multiLocator.clt)\"
-    },
-    targetOuterHTML = \"\(.targetOuterHTML)\",
-    userLocator = {
-      values = [{
-        type = \"css\",
-        value = \"var.signin_username_xpath\"
-      }]
-    }
-  })"
-}')
-
-# Write the output to a file
-echo "$output" > output.txt
-
-# Notify user
-echo "Output has been written to output.txt"
-Explanation of Changes:
-
-
-	
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>

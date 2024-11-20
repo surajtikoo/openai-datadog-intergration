@@ -4,6 +4,45 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+
+#!/bin/bash
+
+# Input JSON string
+input='{
+  "multiLocator": {
+    "ab": "/*[local-name()=\"html\"][1]/*[local-name()=\"body\"][1]/*[local-name()=\"main\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"article\"][1]/*[local-name()=\"form\"][1]/*[local-name()=\"div\"][1]/*[local-name()=\"input\"][1]",
+    "at": "/descendant::*[@name=\"user[email]\" and @value=\"\"]",
+    "cl": "/descendant::*[contains(concat(' ', normalize-space(@class), ' '), \" sign-in__form \")]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), \" form__control \")][1]",
+    "co": "[{\"text\":\" email \",\"textType\":\"innerText\"}]",
+    "ro": "//*[@id=\"user[email]\"]",
+    "clt": "/descendant::*[contains(concat(' ', normalize-space(@class), ' '), \" sign-in__form \")]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), \" form__control \")][1]"
+  },
+  "targetOuterHTML": "<input type=\"email\" id=\"user[email]\" name=\"user[email]\" value=\"\" placeholder=\"Email\" autocapitalize=\"off\" autocomplete=\"off\" autocorrect=\"off\" spellcheck=\"false\" required=\"\" class=\"form__control\" aria"
+}'
+
+# Output JSON formatting
+output=$(jq -n --argjson input "$input" '{
+  element: {
+    multiLocator: $input.multiLocator,
+    targetOuterHTML: $input.targetOuterHTML,
+    userLocator: {
+      values: [
+        {
+          type: "css",
+          value: "suraj"
+        }
+      ]
+    }
+  }
+}')
+
+# Write to a file
+echo "$output" > output.json
+
+# Notify user
+echo "Output has been written to output.json"
+
+	
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>

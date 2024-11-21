@@ -9,38 +9,6 @@
 		<version>3.1.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 
-Challenges Identified:
-
-Complexity of Test Cases:
-The test cases consist of more than 100+ steps, making them highly intricate and challenging to manage.
-
-Dependency Constraints:
-Discussions with the team revealed that it is not feasible to simplify or break down these test cases due to strong interdependencies among steps.
-
-Maintenance Overhead:
-Writing and maintaining such extensive code poses a significant burden on the team, increasing the likelihood of errors and difficulty in upkeep.
-
-Expertise Dependency:
-Handling and troubleshooting such complex test cases require a high level of expertise, making the process less scalable and prone to bottlenecks during knowledge transfer or resource changes.
-
-Proposed Approach: Mixed Strategy
-
-To overcome these challenges, a hybrid approach will be implemented to enhance maintainability and reduce complexity:
-
-Automating Small, Generic Modules via Terraform:
-
-Identify reusable modules (e.g., login, navigation, payments).
-Automate these modules using Terraform, allowing seamless integration into larger test cases.
-This reduces code duplication and ensures uniformity across test cases.
-Centralizing XPath Management:
-
-Maintain all XPath variables in the Terraform codebase rather than the console.
-This simplifies updates and ensures consistency across environments, reducing manual errors.
-Easier Maintenance and Scalability:
-
-By automating generic modules and managing configurations in code, the effort required to maintain test cases is significantly reduced.
-New team members can quickly onboard with modular and well-documented code, minimizing dependency on specialized expertise
-
 		
 	</parent>
 	<groupId>com.javatechie</groupId>

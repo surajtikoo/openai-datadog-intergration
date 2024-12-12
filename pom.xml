@@ -9,6 +9,35 @@
 		<version>3.1.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 
+
+		pipeline {
+    agent any
+    parameters {
+        string(
+            name: 'PUBLIC_IDS', 
+            defaultValue: 'a5werw,bxgsfsd,c4sdff', 
+            description: 'Comma-separated public IDs (e.g., a5werw,bxgsfsd,c4sdff)'
+        )
+    }
+    stages {
+        stage('Setup parameters') {
+            steps {
+                script {
+                    // Access the parameter
+                    def publicIds = params.PUBLIC_IDS
+                    echo "Provided public IDs: ${publicIds}"
+
+                    // Use the parameter in a URL
+                    def baseURL = "http://example.com"
+                    def url = "${baseURL}?public_ids=${publicIds.replace(',', '%2C')}"
+                    echo "Constructed URL: ${url}"
+                }
+            }
+        }
+    }
+}
+
+
 		
 	</parent>
 	<groupId>com.javatechie</groupId>

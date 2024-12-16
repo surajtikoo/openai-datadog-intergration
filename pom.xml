@@ -10,27 +10,29 @@
 		<relativePath /> <!-- lookup parent from repository -->
 
 
-		 const elements = document.querySelectorAll('[id]');
-    const elementsData = {};
+		function storeSpecificTooltipDataWithoutLoop() {
+    // Query elements with a specific data-tooltip value
+    const quantityElement = document.querySelector('[data-tooltip="quantity"]');
+    const rateElement = document.querySelector('[data-tooltip="rate"]');
 
-    // Loop through each element
-    elements.forEach(element => {
-        // Store element id and its text content
-        elementsData[element.id] = element.textContent.trim();
+    if (quantityElement) {
+        const key = "quantity1";
+        const value = quantityElement.textContent.trim();
+        localStorage.setItem(key, value);
+        console.log(`Stored: ${key} = ${value}`);
+    }
 
-        // Print the ID and its value to the console
-        console.log(`ID: ${element.id}, Value: ${element.textContent.trim()}`);
-    });
-
-    // Store the data in localStorage
-    localStorage.setItem("allDocumentsById", JSON.stringify(elementsData));
-
-    // Store the current timestamp
-    localStorage.setItem("mytime", Date.now().toString());
-
-    // Return true to indicate success
-    return true;
+    if (rateElement) {
+        const key = "rate1";
+        const value = rateElement.textContent.trim();
+        localStorage.setItem(key, value);
+        console.log(`Stored: ${key} = ${value}`);
+    }
 }
+
+// Example usage
+storeSpecificTooltipDataWithoutLoop();
+
 
 
 

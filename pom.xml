@@ -8,21 +8,6 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.1.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
-
-const xpath = "//tbody//tr[2]/td[@data-tooltip='Quantity']"; // Replace with your XPath
-const element = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-
-if (element) {
-  element.click(); // Click the element
-  console.log("Element clicked successfully");
-} else {
-  console.error("Element not found");
-}
-
-
-
-
-
 		
 	</parent>
 	<groupId>com.javatechie</groupId>

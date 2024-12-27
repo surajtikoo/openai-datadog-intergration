@@ -9,29 +9,16 @@
 		<version>3.1.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 
+const xpath = "//tbody//tr[2]/td[@data-tooltip='Quantity']"; // Replace with your XPath
+const element = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 
-		function storeSpecificTooltipDataWithoutLoop() {
-    // Query elements with a specific data-tooltip value
-    const quantityElement = document.querySelector('[data-tooltip="quantity"]');
-    const rateElement = document.querySelector('[data-tooltip="rate"]');
-
-    if (quantityElement) {
-        const key = "quantity1";
-        const value = quantityElement.textContent.trim();
-        localStorage.setItem(key, value);
-        console.log(`Stored: ${key} = ${value}`);
-    }
-
-    if (rateElement) {
-        const key = "rate1";
-        const value = rateElement.textContent.trim();
-        localStorage.setItem(key, value);
-        console.log(`Stored: ${key} = ${value}`);
-    }
+if (element) {
+  element.click(); // Click the element
+  console.log("Element clicked successfully");
+} else {
+  console.error("Element not found");
 }
 
-// Example usage
-storeSpecificTooltipDataWithoutLoop();
 
 
 

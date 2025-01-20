@@ -10,6 +10,31 @@
 		<relativePath /> <!-- lookup parent from repository -->
 		
 	</parent>
+
+	// Get the table by its ID
+const table = document.getElementById("myTable");
+
+// Specify the column index (0-based). For example, column 1 = index 0.
+const columnIndex = 1; // Change this to your desired column (e.g., 0 for the first column)
+
+// Get all rows in the <tbody>
+const tbody = table.querySelector("tbody");
+const rows = tbody.rows;
+
+// Array to store the data from the specified column
+const columnData = [];
+
+// Loop through each row and get the <td> at the specified index
+for (let i = 0; i < rows.length; i++) {
+  const cell = rows[i].cells[columnIndex]; // Get the <td> at columnIndex
+  if (cell) {
+    columnData.push(cell.textContent.trim()); // Add the cell's text content to the array
+  }
+}
+
+// Output the data
+console.log(`Data from column ${columnIndex + 1}:`, columnData);
+
 	<groupId>com.javatechie</groupId>
 	<artifactId>openai</artifactId>
 	<version>1.0.0-SNAPSHOT</version>

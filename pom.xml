@@ -11,29 +11,39 @@
 		
 	</parent>
 
-	// Get the table by its ID
+// Get the table by its ID
 const table = document.getElementById("myTable");
 
-// Specify the column index (0-based). For example, column 1 = index 0.
-const columnIndex = 1; // Change this to your desired column (e.g., 0 for the first column)
+// Specify the column indices you want to extract (0-based)
+const columnIndices = [0, 2]; // Example: Get data from the 1st and 3rd columns
 
 // Get all rows in the <tbody>
 const tbody = table.querySelector("tbody");
 const rows = tbody.rows;
 
-// Array to store the data from the specified column
+// Array to store data from the specified columns
 const columnData = [];
 
-// Loop through each row and get the <td> at the specified index
+// Loop through each row
 for (let i = 0; i < rows.length; i++) {
-  const cell = rows[i].cells[columnIndex]; // Get the <td> at columnIndex
-  if (cell) {
-    columnData.push(cell.textContent.trim()); // Add the cell's text content to the array
-  }
+  const row = rows[i];
+  const rowData = {}; // Object to store data for the current row
+
+  // Loop through the specified column indices
+  columnIndices.forEach((colIndex) => {
+    const cell = row.cells[colIndex]; // Get the <td> at the column index
+    if (cell) {
+      rowData[`Column ${colIndex + 1}`] = cell.textContent.trim(); // Add cell data
+    }
+  });
+
+  // Add the row data object to the array
+  columnData.push(rowData);
 }
 
 // Output the data
-console.log(`Data from column ${columnIndex + 1}:`, columnData);
+console.log("Data from specified columns:", columnData);
+
 
 	<groupId>com.javatechie</groupId>
 	<artifactId>openai</artifactId>

@@ -45,6 +45,7 @@ for (let i = 0; i < rows.length; i++) {
 console.log("Data from specified columns:", columnData);
 
 
+
 	<groupId>com.javatechie</groupId>
 	<artifactId>openai</artifactId>
 	<version>1.0.0-SNAPSHOT</version>

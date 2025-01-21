@@ -12,49 +12,53 @@
 	</parent>
 
 
-// Select the specific table using an ID or class
-const table = document.querySelector('#myTable'); // Replace with the specific table ID or class
+document.addEventListener("DOMContentLoaded", () => {
+    // Get the table by its ID
+    const table = document.getElementById("target-table");
 
-if (table) {
-    // Select only rows with the class 'machine-odd' or 'machine-even' within the table
-    const rows = table.querySelectorAll('tr.machine-odd, tr.machine-even');
+    if (!table) {
+        console.error("Table with the specified ID not found.");
+        return;
+    }
 
-    // Initialize arrays to store the extracted data
-    const quantities = [];
-    const salesAmounts = [];
+    // Select rows with dynamic classes like "machine-odd" and "machine-even"
+    const rows = table.querySelectorAll("tr[class^='machine-']");
 
-    // Loop through each row and process valid rows
-    rows.forEach((row, index) => {
-        const quantityCell = row.querySelector('[data-test="Quantity"]');
-        const salesAmountCell = row.querySelector('[data-test="Sales Amount"]');
+    // Initialize an array to store the filtered data
+    const rowData = [];
 
-        if (quantityCell && salesAmountCell) {
-            // Get and clean the text content of Quantity cell
-            const quantityText = quantityCell.textContent.trim();
+    // Iterate over the rows
+    rows.forEach(row => {
+        const totalCostCell = row.querySelector('[data-test="Total Cost"]');
 
-            // Exclude rows where Quantity is blank or contains only &nbsp;
-            if (quantityText && quantityText !== "\u00a0") {
-                quantities.push(quantityText);
-                salesAmounts.push(salesAmountCell.textContent.trim());
-            } else {
-                console.warn(`Skipped row ${index + 1}: Blank or invalid Quantity`);
-            }
-        } else {
-            console.warn(`Skipped row ${index + 1}: Missing required cells`);
+        // Check if Total Cost is not blank or &nbsp
+        if (totalCostCell && totalCostCell.textContent.trim() !== "" && totalCostCell.textContent.trim() !== '\u00A0') {
+            // Extract values from the row
+            const quantity = parseFloat(row.querySelector('[data-test="Quantity"]')?.textContent.trim()) || 0;
+            const percentage = parseFloat(row.querySelector('[data-test="Percentage"]')?.textContent.trim()) || 0;
+            const fair = parseFloat(row.querySelector('[data-test="Fair"]')?.textContent.trim()) || 0;
+
+            // Calculate the product of Quantity, Percentage, and Fair
+            const result = quantity * percentage * fair;
+
+            // Push the extracted data and result into the array
+            rowData.push({
+                quantity,
+                percentage,
+                fair,
+                totalCost: parseFloat(totalCostCell.textContent.trim()),
+                result
+            });
         }
     });
 
-    // Log the results
-    console.log('Quantities:', quantities);
-    console.log('Sales Amounts:', salesAmounts);
-} else {
-    console.error('Table not found!');
-}
+    // Store the filtered data in localStorage
+    localStorage.setItem("tableRowData", JSON.stringify(rowData));
 
-
-
-
-
+    // Retrieve and log the data from localStorage for verification
+    const storedData = JSON.parse(localStorage.getItem("tableRowData"));
+    console.log("Stored Data:", storedData);
+});
 
 
 	<groupId>com.javatechie</groupId>

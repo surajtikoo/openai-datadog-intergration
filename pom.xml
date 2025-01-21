@@ -10,37 +10,47 @@
 		<relativePath /> <!-- lookup parent from repository -->
 		
 	</parent>
-// Dynamically fetch all table rows
-const rows = document.querySelectorAll('table tr');
 
-// Initialize arrays to store the extracted data
-const quantities = [];
-const salesAmounts = [];
 
-// Loop through each row and process valid rows
-rows.forEach((row, index) => {
-    const quantityCell = row.querySelector('[data-test="Quantity"]');
-    const salesAmountCell = row.querySelector('[data-test="Sales Amount"]');
-    
-    if (quantityCell && salesAmountCell) {
-        // Get and clean the text content of Quantity cell
-        const quantityText = quantityCell.textContent.trim();
+// Select the specific table using an ID or class
+const table = document.querySelector('#myTable'); // Replace with the specific table ID or class
 
-        // Exclude rows where Quantity is blank or contains only &nbsp;
-        if (quantityText && quantityText !== "\u00a0") {
-            quantities.push(quantityText);
-            salesAmounts.push(salesAmountCell.textContent.trim());
+if (table) {
+    // Select only rows with the class 'machine-odd' or 'machine-even' within the table
+    const rows = table.querySelectorAll('tr.machine-odd, tr.machine-even');
+
+    // Initialize arrays to store the extracted data
+    const quantities = [];
+    const salesAmounts = [];
+
+    // Loop through each row and process valid rows
+    rows.forEach((row, index) => {
+        const quantityCell = row.querySelector('[data-test="Quantity"]');
+        const salesAmountCell = row.querySelector('[data-test="Sales Amount"]');
+
+        if (quantityCell && salesAmountCell) {
+            // Get and clean the text content of Quantity cell
+            const quantityText = quantityCell.textContent.trim();
+
+            // Exclude rows where Quantity is blank or contains only &nbsp;
+            if (quantityText && quantityText !== "\u00a0") {
+                quantities.push(quantityText);
+                salesAmounts.push(salesAmountCell.textContent.trim());
+            } else {
+                console.warn(`Skipped row ${index + 1}: Blank or invalid Quantity`);
+            }
         } else {
-            console.warn(`Skipped row ${index + 1}: Blank or invalid Quantity`);
+            console.warn(`Skipped row ${index + 1}: Missing required cells`);
         }
-    } else {
-        console.warn(`Skipped row ${index + 1}: Missing required cells`);
-    }
-});
+    });
 
-// Log the results
-console.log('Quantities:', quantities);
-console.log('Sales Amounts:', salesAmounts);
+    // Log the results
+    console.log('Quantities:', quantities);
+    console.log('Sales Amounts:', salesAmounts);
+} else {
+    console.error('Table not found!');
+}
+
 
 
 

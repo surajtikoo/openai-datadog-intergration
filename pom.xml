@@ -10,39 +10,32 @@
 		<relativePath /> <!-- lookup parent from repository -->
 		
 	</parent>
+// Select all rows with data (excluding the header row)
+const rows = document.querySelectorAll('tr.machine-odd, tr.machine-even');
 
-// Get the table by its ID
-const table = document.getElementById("myTable");
+// Initialize arrays to store the extracted data
+const quantities = [];
+const salesAmounts = [];
 
-// Specify the column indices you want to extract (0-based)
-const columnIndices = [0, 2]; // Example: Get data from the 1st and 3rd columns
-
-// Get all rows in the <tbody>
-const tbody = table.querySelector("tbody");
-const rows = tbody.rows;
-
-// Array to store data from the specified columns
-const columnData = [];
-
-// Loop through each row
-for (let i = 0; i < rows.length; i++) {
-  const row = rows[i];
-  const rowData = {}; // Object to store data for the current row
-
-  // Loop through the specified column indices
-  columnIndices.forEach((colIndex) => {
-    const cell = row.cells[colIndex]; // Get the <td> at the column index
-    if (cell) {
-      rowData[`Column ${colIndex + 1}`] = cell.textContent.trim(); // Add cell data
+// Loop through each row and extract the required columns
+rows.forEach(row => {
+    const quantityCell = row.querySelector('[data-test="Quantity"]');
+    const salesAmountCell = row.querySelector('[data-test="Sales Amount"]');
+    
+    if (quantityCell && salesAmountCell) {
+        // Check if the quantityCell is not blank or contains only &nbsp;
+        const quantityText = quantityCell.textContent.trim();
+        if (quantityText && quantityText !== "\u00a0") {
+            quantities.push(quantityText);
+            salesAmounts.push(salesAmountCell.textContent.trim());
+        }
     }
-  });
+});
 
-  // Add the row data object to the array
-  columnData.push(rowData);
-}
+// Log the results
+console.log('Quantities:', quantities);
+console.log('Sales Amounts:', salesAmounts);
 
-// Output the data
-console.log("Data from specified columns:", columnData);
 
 
 

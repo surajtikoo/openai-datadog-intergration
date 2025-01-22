@@ -12,53 +12,45 @@
 	</parent>
 
 
-document.addEventListener("DOMContentLoaded", () => {
-    // Get the table by its ID
-    const table = document.getElementById("target-table");
+// Retrieve and log the data from localStorage for verification
+const storedData = JSON.parse(localStorage.getItem("tableRowData"));
 
-    if (!table) {
-        console.error("Table with the specified ID not found.");
-        return;
-    }
+if (!storedData || storedData.length === 0) {
+    console.error("No data found in localStorage or the data is empty.");
+} else {
+    // Initialize arrays to store matching and non-matching rows
+    const matchingRows = [];
+    const nonMatchingRows = [];
+    let status = true; // Assume everything matches initially
 
-    // Select rows with dynamic classes like "machine-odd" and "machine-even"
-    const rows = table.querySelectorAll("tr[class^='machine-']");
+    // Iterate over the stored data to compare result and fair
+    storedData.forEach(row => {
+        const { result, fair } = row;
 
-    // Initialize an array to store the filtered data
-    const rowData = [];
-
-    // Iterate over the rows
-    rows.forEach(row => {
-        const totalCostCell = row.querySelector('[data-test="Total Cost"]');
-
-        // Check if Total Cost is not blank or &nbsp
-        if (totalCostCell && totalCostCell.textContent.trim() !== "" && totalCostCell.textContent.trim() !== '\u00A0') {
-            // Extract values from the row
-            const quantity = parseFloat(row.querySelector('[data-test="Quantity"]')?.textContent.trim()) || 0;
-            const percentage = parseFloat(row.querySelector('[data-test="Percentage"]')?.textContent.trim()) || 0;
-            const fair = parseFloat(row.querySelector('[data-test="Fair"]')?.textContent.trim()) || 0;
-
-            // Calculate the product of Quantity, Percentage, and Fair
-            const result = quantity * percentage * fair;
-
-            // Push the extracted data and result into the array
-            rowData.push({
-                quantity,
-                percentage,
-                fair,
-                totalCost: parseFloat(totalCostCell.textContent.trim()),
-                result
-            });
+        if (result === fair) {
+            matchingRows.push(row);
+        } else {
+            nonMatchingRows.push(row);
+            status = false; // Set status to false if any mismatch is found
         }
     });
 
-    // Store the filtered data in localStorage
-    localStorage.setItem("tableRowData", JSON.stringify(rowData));
+    // Log the results
+    console.log("Matching Rows:", matchingRows);
+    console.log("Non-Matching Rows:", nonMatchingRows);
 
-    // Retrieve and log the data from localStorage for verification
-    const storedData = JSON.parse(localStorage.getItem("tableRowData"));
-    console.log("Stored Data:", storedData);
-});
+    // Return the final status
+    if (status) {
+        console.log("All rows match: Status = true");
+        return true;
+    } else {
+        console.log("Some rows do not match: Status = false");
+        return {
+            status: false,
+            nonMatchingRows
+        };
+    }
+}
 
 
 	<groupId>com.javatechie</groupId>
